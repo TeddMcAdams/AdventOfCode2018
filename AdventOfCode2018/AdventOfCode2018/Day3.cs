@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdventOfCode2018.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -41,11 +42,13 @@ namespace AdventOfCode2018
 
         private int CalculateSquareInchesOfOverlappedFabric(string input)
         {
-            int result = 0;
+            int squareInches = 0;
 
+            var coordinateMap = new Dictionary<Coordinate, int>();
 
+            // find coordinate and increment value
 
-            return result;
+            return squareInches;
         }
 
     }
