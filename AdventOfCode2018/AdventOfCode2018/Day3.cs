@@ -34,14 +34,46 @@ namespace AdventOfCode2018
         {
             #region // Arrange
 
-            string exampleInput1 = "";
+            string exampleInput1 = @"#1 @ 1,3: 4x4
+#2 @ 3,1: 4x4
+#3 @ 5,5: 2x2";
 
             #endregion
 
             // Act
+            int actual1 = FindIdOfClaimWithNoOverlap(exampleInput1);
+            int actual = FindIdOfClaimWithNoOverlap(_puzzleInput);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(3, actual1);
+            Assert.Equal(164, actual);
+        }
+
+        private int FindIdOfClaimWithNoOverlap(string input)
+        {
+            var fabricClaims = new List<FabricClaim>();
+            var coordinateMap = new Dictionary<Coordinate, int>();
+
+            string[] elfFabricClaims = Parsing.SplitOnNewLine(input);
+
+            foreach (string claimString in elfFabricClaims)
+            {
+                FabricClaim fabricClaim = ConvertFabricClaimString(claimString);
+
+                fabricClaims.Add(fabricClaim);
+
+                foreach (Coordinate coordinate in fabricClaim.Coordinates)
+                {
+                    if (coordinateMap.ContainsKey(coordinate))
+                        coordinateMap[coordinate]++;
+                    else
+                        coordinateMap.Add(coordinate, 1);
+                }
+            }
+
+            return fabricClaims
+                .Single(c => c.Coordinates.All(coor => coordinateMap[coor] == 1))
+                .Id;
         }
 
         private int CalculateSquareInchesOfOverlappedFabric(string input)
@@ -50,11 +82,11 @@ namespace AdventOfCode2018
 
             string[] elfFabricClaims = Parsing.SplitOnNewLine(input);
 
-            foreach (string claim in elfFabricClaims)
+            foreach (string claimString in elfFabricClaims)
             {
-                List<Coordinate> claimCoordinates = ConvertElfsFabricClaimToCoordinates(claim);
+                FabricClaim fabricClaim = ConvertFabricClaimString(claimString);
 
-                foreach (Coordinate coordinate in claimCoordinates)
+                foreach (Coordinate coordinate in fabricClaim.Coordinates)
                 {
                     if (coordinateMap.ContainsKey(coordinate))
                         coordinateMap[coordinate]++;
@@ -66,34 +98,33 @@ namespace AdventOfCode2018
             return coordinateMap.Where(kvp => kvp.Value > 1).Count(); ;
         }
 
-        private List<Coordinate> ConvertElfsFabricClaimToCoordinates(string claim)
+        private FabricClaim ConvertFabricClaimString(string claimString)
         {
-            var coordinates = new List<Coordinate>();
+            var fabricClaim = new FabricClaim();
 
-            string[] delimitedValues = claim.Split(new[] { " @ ", ": " }, StringSplitOptions.None);
+            string[] delimitedValues = claimString.Split(new[] { " @ ", ": " }, StringSplitOptions.None);
 
-            string claimId = delimitedValues[0];
+            fabricClaim.Id = int.Parse(delimitedValues[0].Substring(1));
+
             string[] positionInfo = delimitedValues[1].Split(',');
             string[] sizeInfo = delimitedValues[2].Split('x');
 
             int cornerCoordinateX = int.Parse(positionInfo[0]) + 1;
             int cornerCoordinateY = int.Parse(positionInfo[1]) + 1;
 
-            int width = int.Parse(sizeInfo[0]);
-            int height = int.Parse(sizeInfo[1]);
+            fabricClaim.Width = int.Parse(sizeInfo[0]);
+            fabricClaim.Height = int.Parse(sizeInfo[1]);
 
-            for (int i = cornerCoordinateX; i < cornerCoordinateX + width; i++)
+            for (int i = cornerCoordinateX; i < cornerCoordinateX + fabricClaim.Width; i++)
             {
-                for (int j = cornerCoordinateY; j < cornerCoordinateY + height; j++)
+                for (int j = cornerCoordinateY; j < cornerCoordinateY + fabricClaim.Height; j++)
                 {
-                    coordinates.Add(new Coordinate { X = i, Y = j });
+                    fabricClaim.Coordinates.Add(new Coordinate { X = i, Y = j });
                 }
             }
 
-            return coordinates;
+            return fabricClaim;
         }
 
     }
-
-
 }
