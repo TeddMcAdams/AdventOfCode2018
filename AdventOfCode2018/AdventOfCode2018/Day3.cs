@@ -12,13 +12,17 @@ namespace AdventOfCode2018
         {
             #region // Arrange
 
-            string exampleInput1 = "";
+            string exampleInput1 = @"#1 @ 1,3: 4x4
+#2 @ 3,1: 4x4
+#3 @ 5,5: 2x2";
 
             #endregion
 
             // Act
+            int actual1 = CalculateSquareInchesOfOverlappedFabric(exampleInput1);
 
             // Assert
+            Assert.Equal(4, actual1);
         }
 
         [Fact]
@@ -34,5 +38,17 @@ namespace AdventOfCode2018
 
             // Assert
         }
+
+        private int CalculateSquareInchesOfOverlappedFabric(string input)
+        {
+            int result = 0;
+
+
+
+            return result;
+        }
+
     }
+
+
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AdventOfCode2018
+﻿namespace AdventOfCode2018
 {
     public partial class Day1
     {

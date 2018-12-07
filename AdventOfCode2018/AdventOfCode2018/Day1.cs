@@ -1,4 +1,4 @@
-using System;
+using AdventOfCode2018.Helpers;
 using System.Collections.Generic;
 using Xunit;
 
@@ -62,7 +62,7 @@ namespace AdventOfCode2018
         {
             int result = 0;
 
-            int[] parsedNumbers = ParseInput(input);
+            int[] parsedNumbers = Parsing.SplitOnNewLineOrCommaAndCovertToInt(input);
 
             for (int i = 0; i < parsedNumbers.Length; i++)
             {
@@ -76,7 +76,7 @@ namespace AdventOfCode2018
         {
             List<int> frequencies = new List<int>();
 
-            int[] parsedNumbers = ParseInput(input);
+            int[] parsedNumbers = Parsing.SplitOnNewLineOrCommaAndCovertToInt(input);
 
             int currentFrequency = 0;
 
@@ -94,21 +94,6 @@ namespace AdventOfCode2018
             }
 
             return currentFrequency;
-        }
-
-        private int[] ParseInput(string input)
-        {
-            string[] splitInputString = input
-                .Split(new[] { Environment.NewLine, ", " }, StringSplitOptions.RemoveEmptyEntries);
-
-            int[] numbers = new int[splitInputString.Length];
-
-            for (int i = 0; i < splitInputString.Length; i++)
-            {
-                numbers[i] = int.Parse(splitInputString[i]);
-            }
-
-            return numbers;
         }
     }
 }

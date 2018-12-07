@@ -1,7 +1,6 @@
-﻿using System;
+﻿using AdventOfCode2018.Helpers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -56,19 +55,13 @@ wvxyz";
             Assert.Equal("kbqwtcvzhmhpoelrnaxydifyb", actual);
         }
 
-        private string[] ParseInput(string input)
-        {
-            return input
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-        }
-
         private string FindCommonLetters(string input)
         {
             string boxId1 = string.Empty;
             string boxId2 = string.Empty;
             bool matchFound = false;
 
-            List<string> boxIds = ParseInput(input).ToList();
+            List<string> boxIds = Parsing.SplitOnNewLine(input).ToList();
 
             do
             {
@@ -131,7 +124,7 @@ wvxyz";
             int countOfExactlyTwo = 0;
             int countOfExactlyThree = 0;
 
-            string[] boxIds = ParseInput(input);
+            string[] boxIds = Parsing.SplitOnNewLine(input);
 
             foreach (string id in boxIds)
             {
